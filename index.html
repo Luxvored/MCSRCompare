@@ -24,11 +24,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
 .sync-ind{display:flex;align-items:center;gap:.35rem;font-family:'Syne Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
 .sdot{width:6px;height:6px;border-radius:50%;background:var(--muted);transition:background .3s}
 .sdot.on{background:var(--green);box-shadow:0 0 6px var(--green)}
-.url-bar{background:var(--panel);border-bottom:1px solid var(--border);padding:.65rem 1.25rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-.url-input{flex:1;min-width:200px;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:.45rem .8rem;font-family:'Syne Mono',monospace;font-size:.8rem;outline:none;transition:border-color .2s}
+.url-bar{background:var(--panel);border-bottom:1px solid var(--border);padding:.65rem 1.25rem;display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap}
+.input-group{display:flex;flex-direction:column;gap:.25rem;flex:1;min-width:140px}
+.input-label{font-family:'Syne Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted2)}
+.url-input{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:.45rem .8rem;font-family:'Syne Mono',monospace;font-size:.8rem;outline:none;transition:border-color .2s}
 .url-input:focus{border-color:var(--accent)}
 .url-input::placeholder{color:var(--muted)}
-.btn{background:var(--accent);color:#000;border:none;padding:.45rem .9rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s,transform .1s}
+.btn{background:var(--accent);color:#000;border:none;padding:.45rem .9rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s,transform .1s;align-self:flex-end}
 .btn:hover{opacity:.85;transform:translateY(-1px)}
 .btn.ghost{background:transparent;border:1px solid var(--border2);color:var(--muted2)}
 .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
@@ -57,7 +59,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
 .match-sel{display:none;padding:.6rem 1.25rem;border-bottom:1px solid var(--border);background:var(--panel);gap:.5rem;align-items:center;flex-wrap:wrap}
 .match-sel.show{display:flex}
 .match-lbl{font-family:'Syne Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;flex-shrink:0}
-.match-select{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:.4rem .7rem;font-family:'Syne Mono',monospace;font-size:.75rem;outline:none;flex:1;min-width:200px;max-width:500px;cursor:pointer}
+.match-select{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:.4rem .7rem;font-family:'Syne Mono',monospace;font-size:.75rem;outline:none;flex:1;min-width:200px;max-width:540px;cursor:pointer}
 .match-select option{background:var(--panel2)}
 .mgrid{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)}
 .vpanel{display:flex;flex-direction:column;background:var(--panel);border-right:1px solid var(--border)}
@@ -82,7 +84,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
 .etxt{font-family:'Syne Mono',monospace;font-size:.7rem;color:var(--muted2);text-align:center;line-height:1.7}
 .vp-offset{display:flex;align-items:center;gap:.5rem;padding:.35rem .9rem;border-top:1px solid var(--border);background:var(--panel2);flex-wrap:wrap}
 .off-lbl{font-family:'Syne Mono',monospace;font-size:.55rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;flex-shrink:0}
-.off-val{font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--accent);min-width:55px}
+.off-val{font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--accent);min-width:65px}
 .off-val.local{color:var(--red)}
 .bxs{background:var(--panel);border:1px solid var(--border2);color:var(--muted2);padding:.18rem .45rem;font-family:'Syne Mono',monospace;font-size:.62rem;cursor:pointer;transition:all .15s}
 .bxs:hover{border-color:var(--accent);color:var(--accent)}
@@ -162,13 +164,20 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
   <div class="hcontrols">
     <div class="sync-ind"><div class="sdot" id="sdot"></div><span id="slbl">Not synced</span></div>
     <button class="btn ghost sm" onclick="syncVideos()">Sync</button>
-    <button class="btn ghost sm" id="hPlayBtn" onclick="togglePlay()">▶ Play</button>
+    <button class="btn ghost sm" id="hPlayBtn" onclick="togglePlay()">&#9654; Play</button>
   </div>
 </header>
 
 <div class="url-bar">
-  <input class="url-input" id="vodUrl" placeholder="Paste Twitch VOD URL — e.g. https://www.twitch.tv/videos/2727986120?t=20109s">
-  <button class="btn" onclick="loadVod()">Load VOD</button>
+  <div class="input-group" style="flex:3;min-width:180px">
+    <span class="input-label">Twitch VOD URL</span>
+    <input class="url-input" id="vodUrl" placeholder="https://www.twitch.tv/videos/2727986120?t=20109s">
+  </div>
+  <div class="input-group" style="flex:1;min-width:130px">
+    <span class="input-label">MC Username (IGN)</span>
+    <input class="url-input" id="mcUsername" placeholder="e.g. Couriway">
+  </div>
+  <button class="btn" onclick="loadVod()">Load</button>
 </div>
 
 <div class="status-bar" id="statusBar"></div>
@@ -176,7 +185,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
 <div class="player-card" id="playerCard">
   <div class="pc-name" id="pcName"></div>
   <div class="rank-pill" id="rankPill"></div>
-  <div class="pc-elo">ELO <span id="pcElo">—</span> · Rank #<span id="pcRank">—</span></div>
+  <div class="pc-elo">ELO <span id="pcElo">&#8212;</span> &middot; Rank #<span id="pcRank">&#8212;</span></div>
   <div style="margin-left:auto;display:flex;gap:.5rem;align-items:center">
     <div id="resBadge"></div>
     <div style="font-family:'Syne Mono',monospace;font-size:.65rem;color:var(--muted2)" id="finalTime"></div>
@@ -191,24 +200,23 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
 <div class="mgrid">
   <div class="vpanel">
     <div class="vp-hdr">
-      <div><div class="vp-lbl">Streamer</div><div class="vp-name" id="tName">—</div></div>
+      <div><div class="vp-lbl">Streamer</div><div class="vp-name" id="tName">&#8212;</div></div>
       <div class="vp-timer" id="tTimer">0:00<span class="vp-delta de" id="tDelta"></span></div>
     </div>
     <div class="vbox" id="tBox">
       <div class="empty-state" id="tEmpty">
-        <div class="eicon">📺</div>
-        <div class="etxt">Paste a Twitch VOD URL above and click Load</div>
+        <div class="eicon">&#128250;</div>
+        <div class="etxt">Enter a Twitch VOD URL and the player's<br>Minecraft username, then click Load</div>
       </div>
     </div>
     <div class="vp-offset">
       <span class="off-lbl">Run starts at</span>
-      <span class="off-val" id="tOffLbl">0:00:00</span>
+      <span class="off-val" id="tOffLbl">&#8212;</span>
       <button class="bxs" onclick="markTwitchHere()">Mark here</button>
       <button class="bxs" onclick="resetTwitch()">Reset</button>
     </div>
-    <div class="tnote" id="tnote">⚠ Twitch embed blocked — needs a real domain. <a id="tlink" href="#" target="_blank">Open VOD ↗</a></div>
+    <div class="tnote" id="tnote">&#9888; Twitch embed blocked &#8212; needs a real domain (Netlify). <a id="tlink" href="#" target="_blank">Open VOD &#8599;</a></div>
   </div>
-
   <div class="vpanel">
     <div class="vp-hdr">
       <div><div class="vp-lbl">Your Recording</div><div class="vp-name local" id="lName">No file loaded</div></div>
@@ -218,7 +226,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
       <div class="empty-drop" id="dropZone">
         <div class="dborder"></div>
         <input type="file" accept="video/*" onchange="loadLocal(event)">
-        <div class="eicon">🎬</div>
+        <div class="eicon">&#127916;</div>
         <div class="etxt">Drop recording here or tap to browse</div>
       </div>
     </div>
@@ -232,8 +240,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
 </div>
 
 <div class="seed-panel" id="seedPanel">
-  <div class="sc"><div class="sc-lbl"><span class="sdot2"></span>Overworld</div><div class="sv" id="owV">—</div><div class="ss" id="owS"></div></div>
-  <div class="sc"><div class="sc-lbl"><span class="sdot2 n"></span>Nether / Bastion</div><div class="sv" id="ntV">—</div><div class="ss" id="ntS"></div><div class="vchips" id="vchips"></div></div>
+  <div class="sc"><div class="sc-lbl"><span class="sdot2"></span>Overworld</div><div class="sv" id="owV">&#8212;</div><div class="ss" id="owS"></div></div>
+  <div class="sc"><div class="sc-lbl"><span class="sdot2 n"></span>Nether / Bastion</div><div class="sv" id="ntV">&#8212;</div><div class="ss" id="ntS"></div><div class="vchips" id="vchips"></div></div>
   <div class="sc"><div class="sc-lbl"><span class="sdot2 e"></span>The End</div><div class="ss" id="endS" style="margin-bottom:.3rem"></div><div class="tbars" id="tbars"></div><div class="ss" id="endN" style="margin-top:.3rem"></div></div>
 </div>
 
@@ -253,36 +261,42 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.7r
     </div>
   </div>
   <div class="pb">
-    <button class="pbb" onclick="jumpSplit(-1)">⏮ Prev</button>
-    <button class="pbb" onclick="skip(-10)">−10s</button>
-    <button class="pbb" onclick="skip(-5)">−5s</button>
-    <button class="pbb" id="playBtn" onclick="togglePlay()">▶ Play Both</button>
+    <button class="pbb" onclick="jumpSplit(-1)">&#9198; Prev</button>
+    <button class="pbb" onclick="skip(-10)">&#8722;10s</button>
+    <button class="pbb" onclick="skip(-5)">&#8722;5s</button>
+    <button class="pbb" id="playBtn" onclick="togglePlay()">&#9654; Play Both</button>
     <button class="pbb" onclick="skip(5)">+5s</button>
     <button class="pbb" onclick="skip(10)">+10s</button>
-    <button class="pbb" onclick="jumpSplit(1)">Next ⏭</button>
+    <button class="pbb" onclick="jumpSplit(1)">Next &#9197;</button>
     <span class="pbsep">|</span>
     <span class="splbl">Speed</span>
-    <button class="pbb" id="sp05" onclick="setSpeed(.5)">½×</button>
-    <button class="pbb" id="sp1" onclick="setSpeed(1)" style="border-color:var(--accent);color:var(--accent)">1×</button>
-    <button class="pbb" id="sp15" onclick="setSpeed(1.5)">1.5×</button>
-    <button class="pbb" id="sp2" onclick="setSpeed(2)">2×</button>
+    <button class="pbb" id="sp05" onclick="setSpeed(.5)">&#189;&times;</button>
+    <button class="pbb" id="sp1" onclick="setSpeed(1)" style="border-color:var(--accent);color:var(--accent)">1&times;</button>
+    <button class="pbb" id="sp15" onclick="setSpeed(1.5)">1.5&times;</button>
+    <button class="pbb" id="sp2" onclick="setSpeed(2)">2&times;</button>
   </div>
   <div class="cmp" id="cmpTable" style="display:none">
-    <div class="cmp-side"><div class="cmp-hdr"><span id="lhdr">Streamer</span><span>Time · vs yours</span></div><div id="lsplits"></div></div>
-    <div class="cmp-side"><div class="cmp-hdr"><span id="rhdr">Your Run</span><span>Time · vs streamer</span></div><div id="rsplits"></div></div>
+    <div class="cmp-side"><div class="cmp-hdr"><span id="lhdr">Streamer</span><span>Time &middot; vs yours</span></div><div id="lsplits"></div></div>
+    <div class="cmp-side"><div class="cmp-hdr"><span id="rhdr">Your Run</span><span>Time &middot; vs streamer</span></div><div id="rsplits"></div></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── STATE ────────────────────────────────────────────────────────
-let twitchPlayer = null, localVid = null, localURL = null;
+// =========================================================
+// STATE
+// =========================================================
+let twitchPlayer = null;
+let twitchReady  = false;   // true after READY fires
+let pendingSeek  = null;    // seek queued before READY
+let localVid = null, localURL = null;
 let tOff = 0, lOff = 0;
 let isPlaying = false;
 let mcsrUser = null, allMatches = [], curMatch = null;
 let tickTimer = null;
-let currentVodId = null, urlTimestamp = 0;
+let urlTimestamp = 0;
+let currentVodId = null;
 
 const SPLIT_DEFS = [
   {id:'nether',   icon:'🔥', name:'Enter Nether'     },
@@ -301,309 +315,224 @@ const TL_MAP = {
   'common.enter_end':'end','common.finish':'finish',
 };
 
-// ─── PARSE TIME from ?t=20109s  →  20109 (seconds) ───────────────
-function parseTwitchTime(url) {
-  const m = url.match(/[?&]t=([0-9hms]+)/);
-  if (!m) return 0;
-  let s = 0;
-  const h = m[1].match(/(\d+)h/); if (h)  s += +h[1] * 3600;
-  const n = m[1].match(/(\d+)m/); if (n)  s += +n[1] * 60;
-  const c = m[1].match(/(\d+)s/); if (c)  s += +c[1];
-  // plain number (e.g. ?t=20109)
-  if (!h && !n && !c) s = parseInt(m[1]) || 0;
-  return s;
-}
-
-// ─── MCSR API ─────────────────────────────────────────────────────
-// mcsrranked.com/api returns snake_case: elo_rate, elo_rank, starts_at
-// api.mcsrranked.com returns camelCase: eloRate, eloRank, startsAt
-// We try both bases through a CORS proxy.
-const MCSR_BASES = ['https://mcsrranked.com/api', 'https://api.mcsrranked.com'];
-const CORS_PROXIES = [
-  u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
-  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-  u => `https://thingproxy.freeboard.io/fetch/${u}`,
+// =========================================================
+// MCSR API
+// =========================================================
+const MCSR_BASES = [
+  'https://mcsrranked.com/api',
+  'https://api.mcsrranked.com',
+];
+const PROXIES = [
+  u => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+  u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
 ];
 
 async function mcsrFetch(path) {
+  const attempts = [];
   for (const base of MCSR_BASES) {
-    // Try direct first (works if CORS is open)
-    for (const makeUrl of [u => u, ...CORS_PROXIES]) {
-      const url = makeUrl(base + path);
-      try {
-        const r = await fetch(url, {signal: AbortSignal.timeout(8000)});
-        if (!r.ok) continue;
-        const j = await r.json();
-        // Both endpoints wrap data in {data:...}
-        if (j && (j.data !== undefined || j.status !== undefined)) return j;
-      } catch {}
-    }
+    attempts.push(base + path);
+    for (const p of PROXIES) attempts.push(p(base + path));
   }
-  throw new Error('MCSR API unreachable — all endpoints failed');
-}
-
-// ─── TWITCH GQL — get channel name from VOD ID ────────────────────
-// This is the ONLY reliable way to identify a VOD's owner.
-// twitchPlayer.getChannel() returns null for VOD embeds.
-// The Twitch GQL endpoint works with Twitch's own anonymous Client-ID.
-async function getChannelFromVodId(vodId) {
-  const body = JSON.stringify([{
-    query: `{ video(id: "${vodId}") { owner { login } } }`
-  }]);
-  const headers = {
-    'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-    'Content-Type': 'application/json',
-  };
-
-  // Try direct (works on most browsers — GQL has open CORS)
-  // then fall back to proxy
-  const urls = [
-    'https://gql.twitch.tv/gql',
-    `https://corsproxy.io/?url=${encodeURIComponent('https://gql.twitch.tv/gql')}`,
-    `https://api.allorigins.win/raw?url=${encodeURIComponent('https://gql.twitch.tv/gql')}`,
-  ];
-
-  for (const url of urls) {
+  const errs = [];
+  for (const url of attempts) {
     try {
-      const r = await fetch(url, {
-        method: 'POST', headers, body,
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!r.ok) continue;
+      const r = await fetch(url, {signal: AbortSignal.timeout(9000)});
+      if (!r.ok) { errs.push(url + ': HTTP ' + r.status); continue; }
       const j = await r.json();
-      // Response is an array: [{data: {video: {owner: {login: "channelname"}}}}]
-      const login = j?.[0]?.data?.video?.owner?.login;
-      if (login) return login.toLowerCase();
-    } catch {}
+      if (j && typeof j === 'object') return j;
+    } catch(e) { errs.push(url + ': ' + e.message); }
   }
-  return null;
+  throw new Error('All MCSR API attempts failed:\n' + errs.join('\n'));
 }
 
-// ─── ENTRY POINT ──────────────────────────────────────────────────
+// Read field — handles camelCase (api.mcsrranked.com) and snake_case (mcsrranked.com/api)
+function f(obj, camel, snake) {
+  if (!obj) return undefined;
+  return obj[camel] !== undefined ? obj[camel] : obj[snake];
+}
+
+// =========================================================
+// PARSE ?t= → seconds
+// Handles: 20109s | 1h23m45s | 20109 (plain integer)
+// =========================================================
+function parseTwitchTime(url) {
+  const m = url.match(/[?&]t=([0-9hms]+)/);
+  if (!m) return 0;
+  const raw = m[1];
+  if (/[hms]/.test(raw)) {
+    let s = 0;
+    const h = raw.match(/(\d+)h/); if (h) s += +h[1] * 3600;
+    const n = raw.match(/(\d+)m/); if (n) s += +n[1] * 60;
+    const c = raw.match(/(\d+)s/); if (c) s += +c[1];
+    return s;
+  }
+  return parseInt(raw, 10) || 0;
+}
+
+// =========================================================
+// ENTRY POINT
+// =========================================================
 async function loadVod() {
-  const url = G('vodUrl').value.trim();
-  if (!url) return;
-  G('tlink').href = url;
+  const url  = G('vodUrl').value.trim();
+  const nick = G('mcUsername').value.trim();
+  if (!url)  { setStatus('err', 'Paste a Twitch VOD URL first.'); return; }
+  if (!nick) { setStatus('err', 'Enter the player\'s Minecraft username (IGN).'); G('mcUsername').focus(); return; }
 
-  const vodMatch = url.match(/twitch\.tv\/videos\/(\d+)/);
-  currentVodId = vodMatch?.[1] ?? null;
-  urlTimestamp = parseTwitchTime(url);  // e.g. 20109 from ?t=20109s
+  G('tlink').href    = url;
+  currentVodId       = (url.match(/twitch\.tv\/videos\/(\d+)/) || [])[1] || null;
+  urlTimestamp       = parseTwitchTime(url);
 
-  if (urlTimestamp > 0) {
-    tOff = urlTimestamp;
-    updateOffLabels();
-  }
+  setStatus('loading',
+    'VOD: ' + (currentVodId || 'ID not found') +
+    (urlTimestamp > 0 ? '  |  URL timestamp: ' + fmtS(urlTimestamp) : '') +
+    '\nLooking up "' + nick + '" on MCSR Ranked...'
+  );
 
-  setStatus('loading', `Loading VOD${urlTimestamp > 0 ? ` (timestamp: ${fmtS(urlTimestamp)})` : ''}…`);
-
-  // Start embed immediately so the video loads in parallel
   embedTwitch(url, currentVodId);
-
-  // Get channel from Twitch GQL — this is how we identify the streamer
-  if (currentVodId) {
-    setStatus('loading', `VOD ID: ${currentVodId} — looking up channel via Twitch…`);
-    const channel = await getChannelFromVodId(currentVodId);
-    if (channel) {
-      setStatus('loading', `Twitch channel: ${channel} — looking up on MCSR Ranked…`);
-      await lookupMcsrPlayer(channel);
-    } else {
-      setStatus('err',
-        `Could not identify the streamer automatically.\n` +
-        `If you know their Minecraft IGN, type it below and press Enter.`
-      );
-      showManualLookup();
-    }
-  } else {
-    setStatus('err', 'No VOD ID found in URL. Use a full VOD link like twitch.tv/videos/1234567890');
-  }
+  await lookupPlayer(nick);
 }
 
-// Manual fallback input shown if auto-detect fails
-function showManualLookup() {
-  if (G('manualLookup')) return;
-  const bar = document.createElement('div');
-  bar.id = 'manualLookup';
-  bar.style.cssText = 'display:flex;gap:.5rem;align-items:center;padding:.55rem 1.25rem;background:var(--panel2);border-bottom:1px solid var(--border);flex-wrap:wrap';
-  bar.innerHTML = `
-    <span style="font-family:'Syne Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;flex-shrink:0">MC Username</span>
-    <input id="manualIGN" class="url-input" style="max-width:220px;flex:1" placeholder="e.g. Couriway" />
-    <button class="btn sm" onclick="manualLookup()">Look up</button>`;
-  G('statusBar').after(bar);
-  setTimeout(() => G('manualIGN')?.focus(), 100);
-}
-
-async function manualLookup() {
-  const ign = G('manualIGN')?.value.trim();
-  if (!ign) return;
-  setStatus('loading', `Looking up "${ign}" on MCSR Ranked…`);
-  await lookupMcsrPlayer(ign);
-}
-
-// ─── MCSR PLAYER LOOKUP ───────────────────────────────────────────
-async function lookupMcsrPlayer(nameOrChannel) {
+// =========================================================
+// LOOKUP
+// =========================================================
+async function lookupPlayer(nick) {
   try {
-    const ud = await mcsrFetch(`/users/${encodeURIComponent(nameOrChannel)}`);
-    if (!ud?.data) {
+    const ud = await mcsrFetch('/users/' + encodeURIComponent(nick));
+    if (!ud || !ud.data) {
       setStatus('err',
-        `"${nameOrChannel}" not found on MCSR Ranked.\n` +
-        `Their Minecraft IGN may differ from their Twitch name.\n` +
-        `Use the manual lookup above to enter their IGN directly.`
+        '"' + nick + '" not found on MCSR Ranked.\n' +
+        'Check the spelling — it must match their exact Minecraft IGN.'
       );
-      showManualLookup();
       return;
     }
-
     mcsrUser = ud.data;
-    const nick = mcsrUser.nickname ?? mcsrUser.nick ?? nameOrChannel;
     showPlayerCard(mcsrUser, nick);
-    setStatus('loading', `Found ${nick}! Loading matches…`);
+    setStatus('loading', 'Found ' + (f(mcsrUser,'nickname','nickname') || nick) + '! Loading matches...');
     await loadMatches(nick);
-
-  } catch (e) {
-    setStatus('err', `MCSR API failed: ${e.message}\nTrying manual lookup — enter their IGN above.`);
-    showManualLookup();
+  } catch(e) {
+    setStatus('err', 'MCSR API error: ' + e.message);
+    console.error(e);
   }
 }
 
-// ─── LOAD MATCHES ─────────────────────────────────────────────────
 async function loadMatches(nick) {
-  try {
-    const md = await mcsrFetch(`/users/${encodeURIComponent(nick)}/matches?type=2&count=30`);
-    if (!md?.data?.length) {
-      setStatus('err', `Found "${nick}" but no ranked matches.`); return;
-    }
-    allMatches = md.data;
+  const playerName = f(mcsrUser,'nickname','nickname') || nick;
+  const uid        = f(mcsrUser,'uuid','uuid');
 
-    // Find matches in this VOD by two methods:
-    //   1. VOD URL contains the current vodId
-    //   2. Closest match by timestamp: |match.date - vod.startsAt - urlTimestamp| is minimum
-    let relevant = [];
-
-    if (currentVodId) {
-      relevant = allMatches.filter(m =>
-        m.vod?.some(v => (v.url ?? v.vod_url ?? '').includes(currentVodId))
-      );
-    }
-
-    // If we have a timestamp, sort by closeness to it regardless
-    if (urlTimestamp > 0 && allMatches.length) {
-      const withOffset = allMatches
-        .map(m => {
-          const v = m.vod?.[0];
-          if (!v) return null;
-          const sa = v.startsAt ?? v.starts_at ?? 0;
-          const offset = sa ? Math.abs(m.date - sa - urlTimestamp) : Infinity;
-          return { m, offset };
-        })
-        .filter(Boolean)
-        .sort((a, b) => a.offset - b.offset);
-
-      if (withOffset.length && withOffset[0].offset < 300) {
-        // Within 5 minutes — confident match
-        const best = withOffset[0].m;
-        if (!relevant.find(r => r.id === best.id)) relevant.unshift(best);
-        // Also add other close matches
-        withOffset.slice(1, 5).forEach(({m, offset}) => {
-          if (offset < 600 && !relevant.find(r => r.id === m.id)) relevant.push(m);
-        });
-      }
-    }
-
-    // Fallbacks
-    if (!relevant.length) relevant = allMatches.filter(m => m.vod?.length);
-    if (!relevant.length) relevant = allMatches.slice(0, 15);
-
-    fillMatchSelect(relevant, nick);
-
-    const best = relevant[0];
-    const bestOff = (() => {
-      const v = best?.vod?.[0];
-      if (!v) return null;
-      const sa = v.startsAt ?? v.starts_at ?? 0;
-      return sa ? Math.abs(best.date - sa - urlTimestamp) : null;
-    })();
-
-    setStatus('ok',
-      `✓ ${nick}  ·  ${relevant.length} match${relevant.length !== 1 ? 'es' : ''} found` +
-      (bestOff !== null ? `  ·  best match ±${fmtS(bestOff)} from timestamp` : '')
-    );
-
-    G('matchSelect').value = relevant[0].id;
-    await onMatchChange();
-
-  } catch (e) {
-    setStatus('err', `Failed to load matches: ${e.message}`);
+  const md = await mcsrFetch('/users/' + encodeURIComponent(playerName) + '/matches?type=2&count=50');
+  if (!md || !md.data || !md.data.length) {
+    setStatus('err', 'No ranked matches found for "' + playerName + '".');
+    return;
   }
+  allMatches = md.data;
+
+  // Per MCSR API docs: "You can get a timestamp with {match.date} - {vod.startsAt}"
+  // Both values are epoch SECONDS. Result = seconds into the VOD where the run begins.
+  function getVodOffset(m) {
+    const ve = (m.vod || []).find(v => f(v,'uuid','uuid') === uid) || (m.vod || [])[0];
+    if (!ve) return null;
+    const sa = f(ve, 'startsAt', 'starts_at');
+    if (!sa || !m.date) return null;
+    return Math.max(0, m.date - sa);
+  }
+
+  function tsDiff(m) {
+    if (urlTimestamp <= 0) return 0;
+    const off = getVodOffset(m);
+    return off === null ? Infinity : Math.abs(off - urlTimestamp);
+  }
+
+  // Split: matches in this VOD vs others
+  let inVod  = currentVodId
+    ? allMatches.filter(m => (m.vod || []).some(v => (f(v,'url','vod_url') || '').includes(currentVodId)))
+    : [];
+  let others = allMatches.filter(m => !inVod.includes(m) && m.vod && m.vod.length);
+
+  // Sort each group by distance from urlTimestamp
+  const byTs = arr => arr.slice().sort((a,b) => tsDiff(a) - tsDiff(b));
+  inVod  = byTs(inVod);
+  others = byTs(others);
+
+  // Best group: prefer matches in this VOD
+  let sorted = inVod.length ? inVod : (others.length ? others : allMatches.slice(0,15));
+
+  fillMatchSelect(sorted, uid, getVodOffset);
+
+  const best     = sorted[0];
+  const bestOff  = getVodOffset(best);
+  const bestDiff = (urlTimestamp > 0 && bestOff !== null) ? Math.abs(bestOff - urlTimestamp) : null;
+
+  setStatus('ok',
+    '✓ ' + playerName +
+    (inVod.length ? '  |  ' + inVod.length + ' run' + (inVod.length !== 1 ? 's' : '') + ' in this VOD' : '  |  no VOD match, showing recent runs') +
+    (bestDiff !== null ? '\nAuto-selected: ' + fmtS(bestOff) + ' into VOD  (±' + fmtS(bestDiff) + ' from your timestamp)' : '')
+  );
+
+  G('matchSelect').value = sorted[0].id;
+  await onMatchChange();
 }
 
-function fillMatchSelect(matches, nick) {
+function fillMatchSelect(matches, uid, getVodOffset) {
   const sel = G('matchSelect');
   sel.innerHTML = '';
-  const uid = mcsrUser?.uuid;
-
-  matches.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.id;
-    const opp = m.players?.find(p => p.uuid !== uid);
-    const oppName = opp?.nickname ?? '?';
-    const win  = m.result?.uuid === uid;
-    const draw = !m.result?.uuid && !m.forfeited;
-    const res  = win ? 'W' : draw ? 'D' : 'L';
-    const t    = m.result?.time ? fmtMs(m.result.time) : '—';
-    const d    = new Date(m.date * 1000).toLocaleDateString('en-US', {month:'short', day:'numeric'});
-
-    // Show the VOD offset for this match if we have a timestamp
-    let offsetNote = '';
-    if (urlTimestamp > 0 && m.vod?.[0]) {
-      const sa = m.vod[0].startsAt ?? m.vod[0].starts_at ?? 0;
-      if (sa) offsetNote = `  [VOD@${fmtS(m.date - sa)}]`;
-    }
-
-    opt.textContent = `${d}  ${res}  vs ${oppName}  ·  ${t}${offsetNote}`;
+  matches.forEach((m, i) => {
+    const opt      = document.createElement('option');
+    opt.value      = m.id;
+    const opp      = (m.players || []).find(p => f(p,'uuid','uuid') !== uid);
+    const oppName  = f(opp || {}, 'nickname', 'nickname') || '?';
+    const win      = f(m.result || {}, 'uuid', 'uuid') === uid;
+    const draw     = !f(m.result || {}, 'uuid', 'uuid') && !m.forfeited;
+    const res      = win ? 'W' : draw ? 'D' : 'L';
+    const t        = m.result && m.result.time ? fmtMs(m.result.time) : '—';
+    const d        = new Date(m.date * 1000).toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    const off      = getVodOffset(m);
+    const offStr   = off !== null ? '  VOD@' + fmtS(off) : '';
+    opt.textContent = (i === 0 ? '★ ' : '') + d + '  ' + res + '  vs ' + oppName + '  ·  ' + t + offStr;
     sel.appendChild(opt);
   });
   G('matchSel').classList.add('show');
 }
 
 async function onMatchChange() {
-  const id = G('matchSelect').value;
+  const id    = G('matchSelect').value;
   const basic = allMatches.find(m => m.id === id);
   if (!basic) return;
-  setStatus('loading', 'Loading match details…');
+  setStatus('loading', 'Loading match details...');
   try {
-    const det = await mcsrFetch(`/matches/${id}`);
-    if (!det?.data) throw new Error('empty response');
+    const det = await mcsrFetch('/matches/' + id);
+    if (!det || !det.data) throw new Error('empty response');
     curMatch = det.data;
+    setStatus('ok', 'Match loaded ✓');
     applyMatch(curMatch);
-    setStatus('ok', `Match loaded ✓`);
-  } catch (e) {
-    setStatus('err', `Could not load full match (${e.message}) — showing basic info.`);
+  } catch(e) {
+    setStatus('err', 'Could not load full match (' + e.message + ') — showing basic info.');
     applyMatch(basic);
   }
 }
 
-// ─── APPLY MATCH ──────────────────────────────────────────────────
+// =========================================================
+// APPLY MATCH
+// =========================================================
 function applyMatch(m) {
   if (!mcsrUser) return;
-  const uid = mcsrUser.uuid;
+  const uid = f(mcsrUser,'uuid','uuid');
 
-  // Result badge + final time
-  const win  = m.result?.uuid === uid;
-  const draw = !m.result?.uuid && !m.forfeited;
-  G('resBadge').innerHTML = `<span class="result-badge ${win?'rb-w':draw?'rb-d':'rb-l'}">${win?'WIN':draw?'DRAW':'LOSS'}</span>`;
-  G('finalTime').textContent = m.result?.time ? `Final: ${fmtMs(m.result.time)}` : m.forfeited ? 'Forfeited' : '';
+  const win  = f(m.result || {}, 'uuid', 'uuid') === uid;
+  const draw = !f(m.result || {}, 'uuid', 'uuid') && !m.forfeited;
+  G('resBadge').innerHTML = '<span class="result-badge ' + (win?'rb-w':draw?'rb-d':'rb-l') + '">' + (win?'WIN':draw?'DRAW':'LOSS') + '</span>';
+  G('finalTime').textContent = m.result && m.result.time ? 'Final: ' + fmtMs(m.result.time) : m.forfeited ? 'Forfeited' : '';
 
-  // Auto-sync: vod.startsAt is epoch when the Twitch VOD recording started
-  // match.date is epoch when the match happened
-  // → offset into VOD = match.date - vod.startsAt
-  const vodEntry = m.vod?.find(v => v.uuid === uid) ?? m.vod?.[0];
+  // Compute accurate VOD offset:
+  // MCSR API docs say: "You can get a timestamp with {date} - {vod[].startsAt}"
+  // Both are epoch seconds → result is seconds into the VOD
+  const vodEntry = (m.vod || []).find(v => f(v,'uuid','uuid') === uid) || (m.vod || [])[0];
   if (vodEntry) {
-    const sa = vodEntry.startsAt ?? vodEntry.starts_at ?? 0;
+    const sa = f(vodEntry, 'startsAt', 'starts_at');
     if (sa && m.date) {
       tOff = Math.max(0, m.date - sa);
       updateOffLabels();
-      try { if (twitchPlayer) twitchPlayer.seek(tOff); } catch {}
-      toast(`Auto-synced → ${fmtS(tOff)} into VOD`);
+      // Seek now (or queue if embed not ready yet)
+      seekTwitch(tOff);
     }
   }
 
@@ -614,25 +543,23 @@ function applyMatch(m) {
   startTick();
 }
 
-// ─── PLAYER CARD ──────────────────────────────────────────────────
+// =========================================================
+// PLAYER CARD
+// =========================================================
 function showPlayerCard(u, nick) {
-  // mcsrranked.com/api uses snake_case; api.mcsrranked.com uses camelCase
-  const elo  = u.eloRate  ?? u.elo_rate  ?? 0;
-  const rank = u.eloRank  ?? u.elo_rank  ?? null;
-  const name = u.nickname ?? nick;
-
+  const elo  = f(u,'eloRate','elo_rate')  || 0;
+  const rank = f(u,'eloRank','elo_rank');
+  const name = f(u,'nickname','nickname') || nick;
   G('pcName').textContent = name;
   G('tName').textContent  = name;
   G('lhdr').textContent   = name;
   G('pcElo').textContent  = elo ? elo.toLocaleString() : '—';
-  G('pcRank').textContent = rank ?? '—';
-
+  G('pcRank').textContent = rank != null ? rank : '—';
   const rk = getRank(elo);
   G('rankPill').textContent = rk.n;
-  G('rankPill').className   = `rank-pill ${rk.c}`;
+  G('rankPill').className   = 'rank-pill ' + rk.c;
   G('playerCard').classList.add('show');
 }
-
 function getRank(e) {
   if (e >= 2000) return {n:'NETHERITE',c:'rn'};
   if (e >= 1500) return {n:'DIAMOND',  c:'rd'};
@@ -642,7 +569,9 @@ function getRank(e) {
   return {n:'COAL',c:'rc'};
 }
 
-// ─── SEED PANEL ───────────────────────────────────────────────────
+// =========================================================
+// SEED PANEL
+// =========================================================
 const OWL={village:'Village',shipwreck:'Shipwreck',desert_temple:'Desert Temple',ruined_portal:'Ruined Portal',buried_treasure:'Buried Treasure'};
 const OWS={village:'Iron from golem + hay bales',shipwreck:'Buried treasure map + TNT',desert_temple:'Chest loot, fast iron',ruined_portal:'Partial portal on site',buried_treasure:'Heart of sea route, fast obsidian'};
 const NTL={housing:'Housing',stables:'Stables',bridge:'Bridge',treasure:'Treasure'};
@@ -651,248 +580,258 @@ const NTS={housing:'Multiple chests, reliable obsidian',stables:'Bridge chests, 
 function renderSeed(seed) {
   if (!seed) { G('seedPanel').classList.remove('show'); return; }
   G('seedPanel').classList.add('show');
-  const ow=seed.overworld, nt=seed.nether;
-  G('owV').textContent = ow?(OWL[ow]??fmt(ow)):'Unknown';
-  G('owS').textContent = ow?(OWS[ow]??''):'No filtered overworld';
-  G('ntV').textContent = nt?(NTL[nt]??fmt(nt)):'Unknown';
-  G('ntS').textContent = nt?(NTS[nt]??''):'No filtered bastion';
-  const vc=G('vchips'); vc.innerHTML='';
-  (seed.variations??[]).forEach(v=>{const c=document.createElement('span');c.className='chip';c.textContent=fmt(v);vc.appendChild(c);});
-  const towers=seed.endTowers??seed.end_towers??[];
-  const tb=G('tbars'); tb.innerHTML='';
-  if (towers.length) {
-    const mx=Math.max(...towers,1);
-    towers.forEach(h=>{
-      const w=document.createElement('div');w.className='tbarw';
-      const b=document.createElement('div');b.className=`tbar${h===0?' z':''}`;
+  var ow=seed.overworld, nt=seed.nether;
+  G('owV').textContent = ow?(OWL[ow]||fmt(ow)):'Unknown';
+  G('owS').textContent = ow?(OWS[ow]||''):'No filtered overworld';
+  G('ntV').textContent = nt?(NTL[nt]||fmt(nt)):'Unknown';
+  G('ntS').textContent = nt?(NTS[nt]||''):'No filtered bastion';
+  var vc=G('vchips'); vc.innerHTML='';
+  (seed.variations||[]).forEach(function(v){var c=document.createElement('span');c.className='chip';c.textContent=fmt(v);vc.appendChild(c);});
+  var towers=seed.endTowers||seed.end_towers||[];
+  var tb=G('tbars'); tb.innerHTML='';
+  if(towers.length){
+    var mx=Math.max.apply(null,towers.concat([1]));
+    towers.forEach(function(h){
+      var w=document.createElement('div');w.className='tbarw';
+      var b=document.createElement('div');b.className='tbar'+(h===0?' z':'');
       b.style.height=Math.max(3,(h/mx)*32)+'px';
-      const l=document.createElement('div');l.className='tlbl';l.textContent=h;
+      var l=document.createElement('div');l.className='tlbl';l.textContent=h;
       w.appendChild(b);w.appendChild(l);tb.appendChild(w);
     });
-    const z=towers.filter(h=>h===0).length,mn=Math.min(...towers);
-    G('endN').textContent=z>=2?`⚡ ${z} zero towers — zero cycle`:z===1?'1 zero tower':mn<=3?`Low towers (min ${mn}) — one cycle`:`Min tower: ${mn}`;
-    G('endS').textContent=`${towers.length} end towers`;
-  } else { G('endS').textContent='End data unavailable'; G('endN').textContent=''; }
+    var z=towers.filter(function(h){return h===0;}).length;
+    var mn=Math.min.apply(null,towers);
+    G('endN').textContent=z>=2?'⚡ '+z+' zero towers — zero cycle':z===1?'1 zero tower — possible zero cycle':mn<=3?'Low towers (min '+mn+') — one cycle favorable':'Min tower height: '+mn;
+    G('endS').textContent=towers.length+' end towers';
+  } else {G('endS').textContent='End data unavailable';G('endN').textContent='';}
 }
 
-// ─── SPLITS ───────────────────────────────────────────────────────
+// =========================================================
+// SPLITS
+// =========================================================
 function applySplits(timelines) {
-  splits = SPLIT_DEFS.map(s => ({...s, tT:null, lT:null}));
-  if (!timelines?.length || !mcsrUser) return;
-  const uid = mcsrUser.uuid;
-  const mine = timelines.filter(t => t.uuid === uid).sort((a,b)=>a.time-b.time);
-  const seen = new Set();
-  mine.forEach(ev => {
-    const sid=TL_MAP[ev.type]; if (!sid||seen.has(sid)) return;
-    seen.add(sid);
-    const sp=splits.find(s=>s.id===sid);
-    if (sp) sp.tT = ev.time/1000;
+  splits = SPLIT_DEFS.map(function(s){return Object.assign({},s,{tT:null,lT:null});});
+  if (!timelines || !timelines.length || !mcsrUser) return;
+  var uid  = f(mcsrUser,'uuid','uuid');
+  var mine = timelines.filter(function(t){return f(t,'uuid','uuid')===uid;}).sort(function(a,b){return a.time-b.time;});
+  var seen = {};
+  mine.forEach(function(ev) {
+    var sid=TL_MAP[ev.type]; if(!sid||seen[sid]) return;
+    seen[sid]=true;
+    var sp=splits.find(function(s){return s.id===sid;});
+    if(sp) sp.tT = ev.time / 1000;
   });
 }
 
 function renderSplitsTable() {
-  const has=splits.some(s=>s.tT!==null||s.lT!==null);
+  var has=splits.some(function(s){return s.tT!==null||s.lT!==null;});
   G('cmpTable').style.display=has?'grid':'none';
-  if (!has) return;
+  if(!has) return;
   renderSide('lsplits','tT','lT');
   renderSide('rsplits','lT','tT');
 }
 
 function renderSide(cid,own,opp) {
-  const el=G(cid); el.innerHTML='';
-  const isLocal=own==='lT';
-  splits.forEach(sp=>{
-    const ot=sp[own],pt=sp[opp];
-    const d=(ot!==null&&pt!==null)?ot-pt:null;
-    const dcls=d===null?'':d<0?'a':'b';
-    const dstr=d===null?'':(d<0?`−${fmtS(-d)}`:`+${fmtS(d)}`);
-    const row=document.createElement('div');row.className='srow';
-    row.innerHTML=`
-      <div class="snc"><span>${sp.icon}</span>${sp.name}</div>
-      <div class="svals">
-        <span class="st${ot===null?' none':''}">${ot!==null?fmtS(ot):'—'}</span>
-        ${dstr?`<span class="sdelta ${dcls}">${dstr}</span>`:''}
-        <button class="mbtn" onclick="markSplit('${sp.id}','${isLocal?'l':'t'}')">●</button>
-      </div>`;
-    row.querySelector('.snc').addEventListener('click',()=>{const t=ot??pt;if(t!==null)seekRun(t);});
+  var el=G(cid); el.innerHTML='';
+  var isLocal=own==='lT';
+  splits.forEach(function(sp){
+    var ot=sp[own],pt=sp[opp];
+    var d=(ot!==null&&pt!==null)?ot-pt:null;
+    var dcls=d===null?'':d<0?'a':'b';
+    var dstr=d===null?'':(d<0?'−'+fmtS(-d):'+'+fmtS(d));
+    var row=document.createElement('div');row.className='srow';
+    row.innerHTML=
+      '<div class="snc"><span>'+sp.icon+'</span>'+sp.name+'</div>'+
+      '<div class="svals">'+
+        '<span class="st'+(ot===null?' none':'')+'">'+( ot!==null?fmtS(ot):'—')+'</span>'+
+        (dstr?'<span class="sdelta '+dcls+'">'+dstr+'</span>':'')+
+        '<button class="mbtn" onclick="markSplit(\''+sp.id+'\',\''+(isLocal?'l':'t')+'\')">●</button>'+
+      '</div>';
+    row.querySelector('.snc').addEventListener('click',function(){var t=ot!=null?ot:pt;if(t!==null)seekRun(t);});
     el.appendChild(row);
   });
 }
 
 function markSplit(id,side) {
-  const sp=splits.find(s=>s.id===id); if (!sp) return;
-  const t=side==='t'?getTRT():getLRT();
-  if (t===null){toast('No video on that side');return;}
-  if (side==='t') sp.tT=t; else sp.lT=t;
+  var sp=splits.find(function(s){return s.id===id;}); if(!sp) return;
+  var t=side==='t'?getTRT():getLRT();
+  if(t===null){toast('No video on that side');return;}
+  if(side==='t') sp.tT=t; else sp.lT=t;
   renderSplitsTable(); renderMarkers();
-  toast(`${sp.name}: ${fmtS(t)}`);
+  toast(sp.name+': '+fmtS(t));
 }
 
-// ─── TWITCH EMBED ─────────────────────────────────────────────────
+// =========================================================
+// TWITCH EMBED
+// =========================================================
 function embedTwitch(url, vodId) {
   G('tEmpty').style.display='none';
-  const old=document.getElementById('tEmbed');
-  if (old) old.remove();
-  if (twitchPlayer){try{twitchPlayer.destroy();}catch{}twitchPlayer=null;}
-
-  const wrap=document.createElement('div');
-  wrap.id='tEmbed'; wrap.style.cssText='position:absolute;inset:0;';
+  twitchReady=false; pendingSeek=null;
+  var old=document.getElementById('tEmbed');
+  if(old) old.remove();
+  if(twitchPlayer){try{twitchPlayer.destroy();}catch(e){} twitchPlayer=null;}
+  if(!vodId){showTNote();return;}
+  var wrap=document.createElement('div');
+  wrap.id='tEmbed';wrap.style.cssText='position:absolute;inset:0;';
   G('tBox').appendChild(wrap);
-
-  const timeStr=url.match(/[?&]t=([^&]+)/)?.[1]||'0h0m0s';
-  const opts={
-    width:'100%',height:'100%',
-    parent:[location.hostname,'localhost','127.0.0.1'],
-    autoplay:false,muted:false,time:timeStr,
-  };
-  if (vodId) opts.video=vodId;
-  else { showTNote(); return; }
-
+  var timeStr=(url.match(/[?&]t=([^&]+)/)||[])[1]||'0h0m0s';
   try {
-    twitchPlayer=new Twitch.Player('tEmbed',opts);
-    twitchPlayer.addEventListener(Twitch.Player.READY,()=>{
+    twitchPlayer=new Twitch.Player('tEmbed',{
+      width:'100%',height:'100%',
+      parent:[location.hostname,'localhost','127.0.0.1'],
+      autoplay:false,muted:false,
+      video:vodId,
+      time:timeStr,
+    });
+    twitchPlayer.addEventListener(Twitch.Player.READY,function(){
       G('tnote').style.display='none';
-      if (tOff>0){try{twitchPlayer.seek(tOff);}catch{}}
+      twitchReady=true;
+      if(pendingSeek!==null){try{twitchPlayer.seek(pendingSeek);}catch(e){} pendingSeek=null;}
       startTick();
     });
-    twitchPlayer.addEventListener(Twitch.Player.ERROR,()=>{
-      showTNote();
-    });
-  } catch { showTNote(); }
+    twitchPlayer.addEventListener(Twitch.Player.ERROR,showTNote);
+  } catch(e){showTNote();}
 }
 function showTNote(){G('tnote').style.display='block';}
 
-// ─── LOCAL VIDEO ──────────────────────────────────────────────────
+// Safe seek: queues if player not ready yet
+function seekTwitch(secs) {
+  if(twitchReady&&twitchPlayer){try{twitchPlayer.seek(secs);}catch(e){}}
+  else pendingSeek=secs;
+}
+
+// =========================================================
+// LOCAL VIDEO
+// =========================================================
 function loadLocal(e) {
-  const f=e.target.files[0]; if (!f) return;
-  if (localURL) URL.revokeObjectURL(localURL);
-  localURL=URL.createObjectURL(f);
+  var file=e.target.files[0]; if(!file) return;
+  if(localURL) URL.revokeObjectURL(localURL);
+  localURL=URL.createObjectURL(file);
   G('dropZone').style.display='none';
-  const old=document.getElementById('lVid'); if (old) old.remove();
+  var old=document.getElementById('lVid'); if(old) old.remove();
   localVid=document.createElement('video');
   localVid.id='lVid';localVid.src=localURL;localVid.preload='metadata';
   G('lBox').appendChild(localVid);
-  const n=f.name.replace(/\.[^.]+$/,'');
+  var n=file.name.replace(/\.[^.]+$/,'');
   G('lName').textContent=n.length>22?n.slice(0,20)+'…':n;
   G('rhdr').textContent='Your Run';
-  localVid.addEventListener('loadedmetadata',()=>{toast('Video loaded ✓');updateDur();startTick();});
+  localVid.addEventListener('loadedmetadata',function(){toast('Video loaded ✓');updateDur();startTick();});
   localVid.addEventListener('click',togglePlay);
 }
 
-// ─── SYNC & PLAYBACK ──────────────────────────────────────────────
+// =========================================================
+// SYNC & PLAYBACK
+// =========================================================
 function syncVideos(){
   G('sdot').classList.add('on');G('slbl').textContent='Synced';
-  try{if(twitchPlayer)twitchPlayer.seek(tOff);}catch{}
+  seekTwitch(tOff);
   if(localVid)localVid.currentTime=lOff;
   toast('Synced ✓');
 }
 function togglePlay(){isPlaying?pauseBoth():playBoth();}
 function playBoth(){
   isPlaying=true;
-  ['playBtn','hPlayBtn'].forEach(id=>{const b=G(id);if(!b)return;b.textContent=id==='playBtn'?'⏸ Pause Both':'⏸ Pause';b.classList.add('active');});
-  try{if(twitchPlayer)twitchPlayer.play();}catch{}
+  ['playBtn','hPlayBtn'].forEach(function(id){var b=G(id);if(!b)return;b.textContent=id==='playBtn'?'⏸ Pause Both':'⏸ Pause';b.classList.add('active');});
+  try{if(twitchPlayer)twitchPlayer.play();}catch(e){}
   if(localVid)localVid.play();
 }
 function pauseBoth(){
   isPlaying=false;
-  ['playBtn','hPlayBtn'].forEach(id=>{const b=G(id);if(!b)return;b.textContent=id==='playBtn'?'▶ Play Both':'▶ Play';b.classList.remove('active');});
-  try{if(twitchPlayer)twitchPlayer.pause();}catch{}
+  ['playBtn','hPlayBtn'].forEach(function(id){var b=G(id);if(!b)return;b.textContent=id==='playBtn'?'▶ Play Both':'▶ Play';b.classList.remove('active');});
+  try{if(twitchPlayer)twitchPlayer.pause();}catch(e){}
   if(localVid)localVid.pause();
 }
 function skip(s){
-  try{if(twitchPlayer)twitchPlayer.seek(Math.max(tOff,twitchPlayer.getCurrentTime()+s));}catch{}
+  if(twitchReady&&twitchPlayer){try{twitchPlayer.seek(Math.max(tOff,twitchPlayer.getCurrentTime()+s));}catch(e){}}
   if(localVid)localVid.currentTime=Math.max(lOff,Math.min(localVid.duration,localVid.currentTime+s));
 }
 function setSpeed(s){
-  try{if(twitchPlayer)twitchPlayer.setPlaybackRate(s);}catch{}
+  try{if(twitchPlayer)twitchPlayer.setPlaybackRate(s);}catch(e){}
   if(localVid)localVid.playbackRate=s;
-  [.5,1,1.5,2].forEach(v=>{const b=G('sp'+String(v).replace('.',''));if(!b)return;b.style.borderColor=v===s?'var(--accent)':'';b.style.color=v===s?'var(--accent)':'';});
+  [.5,1,1.5,2].forEach(function(v){var b=G('sp'+String(v).replace('.',''));if(!b)return;b.style.borderColor=v===s?'var(--accent)':'';b.style.color=v===s?'var(--accent)':'';});
 }
 function jumpSplit(dir){
-  const td=splits.filter(s=>s.tT!==null||s.lT!==null).sort((a,b)=>(a.tT??a.lT)-(b.tT??b.lT));
+  var td=splits.filter(function(s){return s.tT!==null||s.lT!==null;}).sort(function(a,b){return(a.tT!=null?a.tT:a.lT)-(b.tT!=null?b.tT:b.lT);});
   if(!td.length){toast('No splits set');return;}
-  const cur=curRunT();let t;
-  if(dir>0)t=td.find(s=>(s.tT??s.lT)>cur+.5);
-  else t=[...td].reverse().find(s=>(s.tT??s.lT)<cur-.5);
+  var cur=curRunT(),t;
+  if(dir>0)t=td.find(function(s){return(s.tT!=null?s.tT:s.lT)>cur+.5;});
+  else t=td.slice().reverse().find(function(s){return(s.tT!=null?s.tT:s.lT)<cur-.5;});
   if(!t)t=dir>0?td[td.length-1]:td[0];
-  seekRun(t.tT??t.lT);toast(`→ ${t.icon} ${t.name}`);
+  seekRun(t.tT!=null?t.tT:t.lT);toast('→ '+t.icon+' '+t.name);
 }
-function seekRun(t){
-  try{if(twitchPlayer)twitchPlayer.seek(tOff+t);}catch{}
-  if(localVid)localVid.currentTime=Math.min(localVid.duration,lOff+t);
-}
-function markTwitchHere(){try{tOff=twitchPlayer?.getCurrentTime()??0;updateOffLabels();toast(`Twitch start: ${fmtS(tOff)}`);}catch{toast('No Twitch VOD');}}
+function seekRun(t){seekTwitch(tOff+t);if(localVid)localVid.currentTime=Math.min(localVid.duration,lOff+t);}
+function markTwitchHere(){if(!twitchReady||!twitchPlayer){toast('Twitch not ready');return;}try{tOff=twitchPlayer.getCurrentTime();updateOffLabels();toast('Twitch start: '+fmtS(tOff));}catch(e){toast('Error reading position');}}
 function resetTwitch(){tOff=0;updateOffLabels();toast('Twitch offset reset');}
-function markLocalHere(){if(!localVid){toast('No local video');return;}lOff=localVid.currentTime;updateOffLabels();toast(`Local start: ${fmtS(lOff)}`);}
+function markLocalHere(){if(!localVid){toast('No local video');return;}lOff=localVid.currentTime;updateOffLabels();toast('Local start: '+fmtS(lOff));}
 function resetLocal(){lOff=0;updateOffLabels();toast('Local offset reset');}
 function updateOffLabels(){G('tOffLbl').textContent=fmtS(tOff);G('lOffLbl').textContent=fmtS(lOff);}
 
-// ─── TICK ─────────────────────────────────────────────────────────
+// =========================================================
+// TICK
+// =========================================================
 function startTick(){if(tickTimer)return;tickTimer=setInterval(tick,350);}
 function tick(){
-  const tT=getTRT(),lT=getLRT();
+  var tT=getTRT(),lT=getLRT();
   if(tT!==null)G('tTimer').childNodes[0].nodeValue=fmtS(tT);
   if(lT!==null)G('lTimer').childNodes[0].nodeValue=fmtS(lT);
   if(tT!==null&&lT!==null){
-    const d=tT-lT,abs=Math.abs(d);
+    var d=tT-lT,abs=Math.abs(d);
     if(abs<.5){setD('tDelta','','de');setD('lDelta','','de');}
-    else if(d>0){setD('tDelta',`+${fmtS(abs)} ahead`,'da');setD('lDelta',`−${fmtS(abs)} behind`,'db');}
-    else{setD('tDelta',`−${fmtS(abs)} behind`,'db');setD('lDelta',`+${fmtS(abs)} ahead`,'da');}
+    else if(d>0){setD('tDelta','+'+fmtS(abs)+' ahead','da');setD('lDelta','−'+fmtS(abs)+' behind','db');}
+    else{setD('tDelta','−'+fmtS(abs)+' behind','db');setD('lDelta','+'+fmtS(abs)+' ahead','da');}
   }
-  const dur=getDur();
+  var dur=getDur();
   if(dur>0){
-    const tp=tT!==null?Math.min(100,(tT/dur)*100):0;
-    const lp=lT!==null?Math.min(100,(lT/dur)*100):0;
+    var tp=tT!==null?Math.min(100,(tT/dur)*100):0;
+    var lp=lT!==null?Math.min(100,(lT/dur)*100):0;
     G('tpT').style.width=tp+'%';G('tpL').style.width=lp+'%';
     G('thT').style.left=tp+'%';G('thL').style.left=lp+'%';
   }
 }
-function setD(id,txt,cls){const e=G(id);e.textContent=txt;e.className=`vp-delta ${cls}`;}
-function getTRT(){try{return twitchPlayer?Math.max(0,twitchPlayer.getCurrentTime()-tOff):null;}catch{return null;}}
+function setD(id,txt,cls){var e=G(id);e.textContent=txt;e.className='vp-delta '+cls;}
+function getTRT(){if(!twitchReady||!twitchPlayer)return null;try{return Math.max(0,twitchPlayer.getCurrentTime()-tOff);}catch(e){return null;}}
 function getLRT(){return localVid?Math.max(0,localVid.currentTime-lOff):null;}
-function curRunT(){return getTRT()??getLRT()??0;}
+function curRunT(){return getTRT()||getLRT()||0;}
 function getDur(){
-  if(localVid?.duration)return localVid.duration-lOff;
-  const ts=splits.flatMap(s=>[s.tT,s.lT]).filter(t=>t!==null);
-  return ts.length?Math.max(...ts)*1.2:600;
+  if(localVid&&localVid.duration)return localVid.duration-lOff;
+  var ts=splits.reduce(function(a,s){return a.concat([s.tT,s.lT]);}, []).filter(function(t){return t!==null;});
+  return ts.length?Math.max.apply(null,ts)*1.2:600;
 }
-function updateDur(){if(localVid?.duration)G('durLbl').textContent=`Duration ${fmtS(localVid.duration-lOff)}`;}
+function updateDur(){if(localVid&&localVid.duration)G('durLbl').textContent='Duration '+fmtS(localVid.duration-lOff);}
 
-// ─── MARKERS ──────────────────────────────────────────────────────
+// =========================================================
+// MARKERS
+// =========================================================
 function renderMarkers(){
-  G('scrubTrack').querySelectorAll('.smk').forEach(e=>e.remove());
-  const dur=getDur();if(!dur)return;
-  const COLS={nether:'#ff5555',bastion:'#ff9977',fortress:'#ffaa44',blind:'#ffd166',end:'#bd93f9',finish:'#06d6a0'};
-  splits.forEach(sp=>{
-    const t=sp.tT??sp.lT;if(t===null)return;
-    const pct=Math.min(100,(t/dur)*100),col=COLS[sp.id]??'var(--gold)';
-    const mk=document.createElement('div');mk.className='smk';mk.style.left=pct+'%';
-    mk.innerHTML=`<div class="smk-tip">${sp.icon} ${sp.name} · ${fmtS(t)}</div><div class="smk-line" style="background:${col}"></div><div class="smk-dot" style="background:${col}"></div>`;
-    mk.addEventListener('click',()=>seekRun(t));
+  G('scrubTrack').querySelectorAll('.smk').forEach(function(e){e.remove();});
+  var dur=getDur(); if(!dur)return;
+  var COLS={nether:'#ff5555',bastion:'#ff9977',fortress:'#ffaa44',blind:'#ffd166',end:'#bd93f9',finish:'#06d6a0'};
+  splits.forEach(function(sp){
+    var t=sp.tT!=null?sp.tT:sp.lT; if(t===null)return;
+    var pct=Math.min(100,(t/dur)*100),col=COLS[sp.id]||'var(--gold)';
+    var mk=document.createElement('div');mk.className='smk';mk.style.left=pct+'%';
+    mk.innerHTML='<div class="smk-tip">'+sp.icon+' '+sp.name+' · '+fmtS(t)+'</div><div class="smk-line" style="background:'+col+'"></div><div class="smk-dot" style="background:'+col+'"></div>';
+    mk.addEventListener('click',function(){seekRun(t);});
     G('scrubTrack').appendChild(mk);
   });
 }
-G('scrubClick').addEventListener('click',e=>{
-  const r=e.currentTarget.getBoundingClientRect();
+G('scrubClick').addEventListener('click',function(e){
+  var r=e.currentTarget.getBoundingClientRect();
   seekRun(((e.clientX-r.left)/r.width)*getDur());
 });
 
-// ─── DRAG & DROP ──────────────────────────────────────────────────
-const dz=G('dropZone');
-document.addEventListener('dragover',e=>{e.preventDefault();if(dz.style.display!=='none')dz.classList.add('drag');});
-document.addEventListener('dragleave',()=>dz.classList.remove('drag'));
-document.addEventListener('drop',e=>{
-  e.preventDefault();dz.classList.remove('drag');
-  if(e.dataTransfer.files[0]?.type.startsWith('video/'))loadLocal({target:{files:e.dataTransfer.files}});
-});
+// =========================================================
+// DRAG & DROP
+// =========================================================
+var dz=G('dropZone');
+document.addEventListener('dragover',function(e){e.preventDefault();if(dz.style.display!=='none')dz.classList.add('drag');});
+document.addEventListener('dragleave',function(){dz.classList.remove('drag');});
+document.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files[0]&&e.dataTransfer.files[0].type.indexOf('video/')===0)loadLocal({target:{files:e.dataTransfer.files}});});
 
-// ─── KEYBOARD ─────────────────────────────────────────────────────
-document.addEventListener('keydown',e=>{
-  if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)){
-    if(e.key==='Enter'&&e.target.id==='manualIGN'){e.preventDefault();manualLookup();}
-    if(e.key==='Enter'&&e.target.id==='vodUrl'){e.preventDefault();loadVod();}
-    return;
-  }
+// =========================================================
+// KEYBOARD
+// =========================================================
+document.addEventListener('keydown',function(e){
+  if(['INPUT','SELECT','TEXTAREA'].indexOf(e.target.tagName)>=0){if(e.key==='Enter'){e.preventDefault();loadVod();}return;}
   if(e.key===' '){e.preventDefault();togglePlay();}
   if(e.key==='ArrowLeft')skip(e.shiftKey?-30:-5);
   if(e.key==='ArrowRight')skip(e.shiftKey?30:5);
@@ -900,25 +839,30 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){e.preventDefault();jumpSplit(1);}
 });
 
-// ─── STATUS & TOAST ───────────────────────────────────────────────
+// =========================================================
+// STATUS & TOAST
+// =========================================================
 function setStatus(type,msg){
-  const el=G('statusBar');
+  var el=G('statusBar');
   if(!msg){el.classList.remove('show');return;}
   el.textContent=(type==='loading'?'⟳  ':type==='err'?'✕  ':type==='ok'?'✓  ':'   ')+msg;
-  el.className=`status-bar show${type?' '+type:''}`;
+  el.className='status-bar show'+(type?' '+type:'');
 }
-let toastTO;
-function toast(msg){const el=G('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTO);toastTO=setTimeout(()=>el.classList.remove('show'),2600);}
+var toastTO;
+function toast(msg){var el=G('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTO);toastTO=setTimeout(function(){el.classList.remove('show');},2600);}
 
-// ─── UTILS ────────────────────────────────────────────────────────
+// =========================================================
+// UTILS
+// =========================================================
 function G(id){return document.getElementById(id);}
-function fmt(s){return s?s.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()):'—';}
+function fmt(s){return s?s.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}):'—';}
 function fmtS(s){
   if(s===null||s===undefined||isNaN(s))return'—';
   s=Math.max(0,s);
-  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);
-  return h>0?`${h}:${String(m).padStart(2,'0')}:${String(sc).padStart(2,'0')}`:`${m}:${String(sc).padStart(2,'0')}`;
+  var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);
+  return h>0?h+':'+pad(m)+':'+pad(sc):m+':'+pad(sc);
 }
+function pad(n){return String(n).padStart(2,'0');}
 function fmtMs(ms){return fmtS(ms/1000);}
 </script>
 </body>
